@@ -43,7 +43,7 @@ namespace Infra.Tests
 			IContainer provider = builder.Build();
 			return provider;
 		}
-		
+
 		private static IConfiguration InitConfiguration()
 		{
 			return new ConfigurationBuilder()
@@ -94,8 +94,6 @@ namespace Infra.Tests
 		public async Task QueryTest_WhenSendQuery_ShouldCallQueryHandlerAsync()
 		{
 			var services = new ServiceCollection();
-			services.AddMemoryCache();
-			services.AddDistributedMemoryCache();
 			var provider = InitContainer(services);
 
 			var processor = provider.Resolve<IQueryProcessor>();
@@ -109,7 +107,6 @@ namespace Infra.Tests
 		public async Task CacheableQueryTest_WhenQueryCached_ShouldNotCallQueryHandler()
 		{
 			var services = new ServiceCollection();
-			services.AddMemoryCache();
 			services.AddDistributedMemoryCache();
 
 			var provider = InitContainer(services);
@@ -136,7 +133,6 @@ namespace Infra.Tests
 		public async Task CacheableQueryTest_WhenQueryCachedAndRevaldateRequested_ShouldCallQueryHandler()
 		{
 			var services = new ServiceCollection();
-			services.AddMemoryCache();
 			services.AddDistributedMemoryCache();
 
 			var provider = InitContainer(services);
@@ -159,13 +155,12 @@ namespace Infra.Tests
 			Assert.True(resultRevalidated > 0);
 			Assert.True(resultRevalidated > result);
 		}
-	
+
 		[Fact]
 		public async Task CacheableQueryTestWithRedisCache_WhenQueryCached_ShouldNotCallQueryHandler()
 		{
 			var configs = InitConfiguration();
 			var services = new ServiceCollection();
-			services.AddMemoryCache();
 			services.AddStackExchangeRedisCache(o => { o.Configuration = configs.GetConnectionString("Redis"); });
 			var provider = InitContainer(services);
 			var processor = provider.Resolve<IQueryProcessor>();
@@ -192,7 +187,6 @@ namespace Infra.Tests
 		{
 			var configs = InitConfiguration();
 			var services = new ServiceCollection();
-			services.AddMemoryCache();
 			services.AddStackExchangeRedisCache(o => { o.Configuration = configs.GetConnectionString("Redis"); });
 
 			var provider = InitContainer(services);
