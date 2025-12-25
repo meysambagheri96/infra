@@ -96,6 +96,10 @@ namespace Infra.Common.Decorators
                     typeof(ICommandHandler<,>),
                         fromKey: "1",
                         toKey: "2")
+                        .WithParameter(
+                            (pi, ctx) => pi.ParameterType.IsGenericType && 
+                                       pi.ParameterType.GetGenericTypeDefinition() == typeof(ICommandValidator<>),
+                            (pi, ctx) => ctx.ResolveOptional(pi.ParameterType))
                         .InstancePerLifetimeScope();
 
             builder
