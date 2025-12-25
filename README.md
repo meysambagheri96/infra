@@ -236,8 +236,8 @@ public class CreateOrderNoteCommandHandler : ICommandHandler<CreateOrderNoteComm
 }
 ```
 
-#### 3- CommandValidator (Required)
-The CommandValidator is used for validaing something that is related to the current data in database.
+#### 3- CommandValidator (Optional)
+The CommandValidator is used for validating something that is related to the current data in database. If you don't need database validation, you can omit the validator for your command.
 ```c#
 public class CreateOrderNoteCommandValidator : ICommandValidator<CreateOrderNoteCommand>
 {

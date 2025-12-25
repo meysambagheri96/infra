@@ -68,6 +68,26 @@ public class CommandQueriesTests
 	}
 
 	[Fact]
+	public async Task CommandTest_WhenSendCommandWithoutValidator_ShouldCallCommandHandlerAsync()
+	{
+		//Arrange
+		var provider = new ContainerBuilder()
+			.AddLoggingInternal()
+			.AddCommandQueryInternal()
+			.Build();
+
+		var processor = provider.Resolve<ICommandProcessor>();
+
+		var result = await processor.ExecuteAsync<TestCommandWithoutValidator, string>(new TestCommandWithoutValidator()
+		{
+			Value = "test value"
+		});
+
+		Assert.True(!string.IsNullOrWhiteSpace(result));
+		Assert.Contains("Processed", result);
+	}
+
+	[Fact]
 	public async Task QueryTest_WhenSendQuery_ShouldCallQueryHandlerAsync()
 	{
 		//Arrange
